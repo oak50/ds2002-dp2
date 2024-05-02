@@ -1,0 +1,36 @@
+#!/usr/bin/python3
+import pymongo
+from pymongo import MongoClient, errors
+from bson.json_util import dumps
+import os
+import json
+
+
+MONGOPASS = os.getenv('MONGOPASS')
+uri = mongodb+srv://fpt9nh:MONGOPASS@cluster0.iqjuwe6.mongodb.net/
+# specify a database
+db = client.db1
+# specify a collection
+collection = db.collection1
+
+# traverse directory's content
+import os
+directory = "data"
+
+for filename in os.listdir(directory):
+  with open(os.path.join(directory, filename)) as f:
+    try:
+        file_data = json.load(f)
+    except Exception as e:
+      print(e, "error when loading", f)
+    try:
+      if isinstance(file_data, list):
+        collection.insert_many(file_data)
+      except Exception as e:
+        print(e, "when importing into Mongo")
+    else:
+      try:
+        collection.insert_one(file_data)
+      except Exception as e:
+        print(e)    
+    # do other things with f
