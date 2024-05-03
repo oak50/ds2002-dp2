@@ -17,11 +17,11 @@ collection = db.dp2
 # database
 directory = "data"
 
-# create for loop
-for files in os.listdir(directory): # look at files 
+# create for loop 
+for files in os.listdir(directory): # for all files in directory
   with open(os.path.join(directory, files)) as f: 
     try:
-        file_data = json.load(f) # load as json
+        datafiles = json.load(f) # load as json
     # error handling -- throw error if encountering issues loading file
     except Exception as e: 
       print(f"Error loading file: {e}")
@@ -30,15 +30,15 @@ for files in os.listdir(directory): # look at files
 # Find way to separate these instances using if/else statements, and list any errors.
 
     try:
-      if isinstance(file_data, list): # if file data is a list, then...
-        collection.insert_many(file_data) # insert several files into collection
+      if isinstance(datafiles, list): # if file data is a list, then...
+        collection.insert_many(datafiles) # insert several files into collection
     except Exception as e:
       print(f"Issue when importing into Mongo: {e}")
     
     # if file data has only one item (not a list), we'll want to use insert_one function instead
     else:
       try:
-        collection.insert_one(file_data) # insert file into collection
-      except Exception as e: # unless there's an error
+        collection.insert_one(datafiles) # insert file into collection
+      except Exception as e: # unless there's an error / no files to upload
         print("Encountered an error:", e)    
     # do other things with f
