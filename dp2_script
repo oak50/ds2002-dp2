@@ -28,13 +28,15 @@ for files in os.listdir(directory): # for all files in directory
 
 # 3 categories: either there are multiple files in the collection, just one, or none. 
 # Find way to separate these instances using if/else statements, and list any errors.
-# try + accept statements...
+
+# try + except statements...
 
     try:
       if type(datafiles) is list: # if file data is a list, then...
         collection.insert_many(datafiles) # insert several files into collection
-    except Exception as e:
+    except Exception as e: # unless exception
       print(f"Importing error: {e}")
+  
   # if file data has only one item (not a list), we'll want to use insert_one function instead
     else:
       try:
